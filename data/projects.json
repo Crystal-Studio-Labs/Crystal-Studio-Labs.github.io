@@ -1,0 +1,596 @@
+[
+  {
+    "id": "menuforge",
+    "name": "MenuForge",
+    "tagline": "Universal Linux Desktop Entry (.desktop) generator & management CLI",
+    "description": "The universal Desktop Entry (.desktop) generator and management CLI for Linux distributions. Provides automated icon parsing, category mapping, executable resolution, and validation against the FreeDesktop.org Desktop Entry Specification.",
+    "status": "active",
+    "category": "CLI & Tools",
+    "tags": [
+      "Linux",
+      "Desktop Entry",
+      "Shell",
+      "CLI",
+      "FreeDesktop"
+    ],
+    "repo": "Crystal-Studio-Labs/MenuForge",
+    "homepage": "https://github.com/Crystal-Studio-Labs/MenuForge",
+    "install": "curl -fsSL https://raw.githubusercontent.com/Crystal-Studio-Labs/MenuForge/main/install.sh | bash",
+    "usage": "menuforge create --name \"My Application\" --exec \"/opt/app/bin\" --icon \"/opt/app/icon.png\" --category \"Development;Utility;\"",
+    "features": [
+      "Strict compliance with FreeDesktop.org Desktop Entry Specification v1.5",
+      "Automatic icon resolution across hicolor and standard icon themes",
+      "Zero-dependency POSIX shell implementation running on any Linux distribution",
+      "Validation engine detecting broken exec targets and missing permissions"
+    ],
+    "featured": true,
+    "order": 1,
+    "githubStats": {
+      "stars": 8,
+      "forks": 0,
+      "language": "Shell",
+      "lastPush": "2026-06-23T10:30:48Z"
+    }
+  },
+  {
+    "id": "orion-net",
+    "name": "Orion-Net",
+    "tagline": "Decentralized encrypted chat system with ephemeral rooms & hub routing",
+    "description": "Decentralized, encrypted chat system featuring ephemeral memory-only room allocations, hub-based peer-to-peer message routing, and zero data persistence on disk. Engineered for resilience and strict privacy without intermediary telemetry.",
+    "status": "active",
+    "category": "Networks & Protocols",
+    "tags": [
+      "Decentralized",
+      "Encryption",
+      "Python",
+      "P2P",
+      "Cryptography"
+    ],
+    "repo": "Crystal-Studio-Labs/Orion-Net",
+    "homepage": "https://github.com/Crystal-Studio-Labs/Orion-Net",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/Orion-Net.git && cd Orion-Net && pip install -r requirements.txt",
+    "usage": "python -m orion_net.node --listen 0.0.0.0:8443 --room secure-alpha --ephemeral",
+    "features": [
+      "End-to-end encrypted packet transmission with ephemeral key rotation",
+      "Memory-only room states destroyed upon node termination",
+      "Hub-and-spoke mesh fallback routing for low-latency dispatch",
+      "Zero telemetry, zero user tracking, and zero log serialization"
+    ],
+    "featured": true,
+    "order": 2,
+    "githubStats": {
+      "stars": 2,
+      "forks": 0,
+      "language": "Python",
+      "lastPush": "2026-04-19T20:21:48Z"
+    }
+  },
+  {
+    "id": "crystalsystem-js",
+    "name": "crystalsystem.js",
+    "tagline": "Real-time system telemetry prober for Node.js with zero dependencies",
+    "description": "Real-time system resource monitor for Node.js with automated threshold alerts, HTTP health check endpoints, and zero external runtime dependencies. Enforces a strict sub-25MB memory ceiling while capturing CPU, RAM, network, and process telemetry.",
+    "status": "active",
+    "category": "Systems & SDKs",
+    "tags": [
+      "Node.js",
+      "Monitoring",
+      "Telemetry",
+      "Zero-Dependency",
+      "JavaScript"
+    ],
+    "repo": "Crystal-Studio-Labs/crystalsystem.js",
+    "homepage": "https://github.com/Crystal-Studio-Labs/crystalsystem.js",
+    "install": "npm install crystalsystem.js",
+    "usage": "import { CrystalSystem } from 'crystalsystem.js';\nconst monitor = new CrystalSystem({ intervalMs: 1000, maxMemoryMb: 25 });\nmonitor.on('alert', (metric) => console.warn(`Resource threshold breach:`, metric));\nmonitor.start();",
+    "features": [
+      "Zero external dependencies (pure Node.js native os and process APIs)",
+      "Strict sub-25MB memory consumption ceiling",
+      "Real-time event emitter for CPU, heap, and RSS metric thresholds",
+      "Built-in HTTP /health telemetry status endpoint handler"
+    ],
+    "featured": true,
+    "order": 3,
+    "githubStats": {
+      "stars": 1,
+      "forks": 0,
+      "language": "JavaScript",
+      "lastPush": "2026-04-25T08:55:55Z"
+    }
+  },
+  {
+    "id": "orion-deck",
+    "name": "Orion-Deck",
+    "tagline": "Encrypted terminal UI client & status dashboard for Orion-Net",
+    "description": "Terminal User Interface (TUI) and telemetry deck for the Orion-Net decentralized network. Built with Python and curses/textual, providing keyboard-driven encryption management, peer latency displays, and real-time room communication.",
+    "status": "active",
+    "category": "CLI & Tools",
+    "tags": [
+      "TUI",
+      "Terminal",
+      "Python",
+      "Interface",
+      "Curses"
+    ],
+    "repo": "Crystal-Studio-Labs/Orion-Deck",
+    "homepage": "https://github.com/Crystal-Studio-Labs/Orion-Deck",
+    "install": "pip install orion-deck",
+    "usage": "orion-deck --connect 127.0.0.1:8443 --identity \"operator-1\"",
+    "features": [
+      "Keyboard-first navigation with vim-style keybindings",
+      "Real-time ASCII latency sparklines and peer heartbeat displays",
+      "Local cryptographic keypair generation and verification HUD",
+      "Ultra-low CPU overhead running inside standard VT100/ANSI terminals"
+    ],
+    "featured": true,
+    "order": 4,
+    "githubStats": {
+      "stars": 1,
+      "forks": 0,
+      "language": "Python",
+      "lastPush": "2026-04-16T06:59:29Z"
+    }
+  },
+  {
+    "id": "inkmd",
+    "name": "InkMD",
+    "tagline": "Fast, local-first Markdown workspace with KaTeX & IndexedDB",
+    "description": "A high-speed, local-first Markdown editor built using TypeScript and client-side IndexedDB persistence. Includes full KaTeX mathematical formula rendering, split-pane preview, export utilities, and zero cloud dependency.",
+    "status": "active",
+    "category": "Web & UI",
+    "tags": [
+      "Markdown",
+      "TypeScript",
+      "IndexedDB",
+      "Local-First",
+      "KaTeX"
+    ],
+    "repo": "Crystal-Studio-Labs/InkMD",
+    "homepage": "https://github.com/Crystal-Studio-Labs/InkMD",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/InkMD.git && cd InkMD && npm install",
+    "usage": "npm run dev",
+    "features": [
+      "100% offline-first architecture powered by browser IndexedDB",
+      "Synchronous split-screen scroll with sub-16ms render updates",
+      "Integrated KaTeX LaTeX math expression engine",
+      "One-click export to Markdown, HTML, and formatted PDF"
+    ],
+    "featured": true,
+    "order": 5,
+    "githubStats": {
+      "stars": 1,
+      "forks": 0,
+      "language": "TypeScript",
+      "lastPush": "2026-11-08T15:32:05Z"
+    }
+  },
+  {
+    "id": "argus",
+    "name": "Argus",
+    "tagline": "Autonomous 3-stage AI code reviewer & architecture guardian",
+    "description": "Autonomous 3-stage AI code reviewer and architecture guardian designed for PowerShell and automated CI environments. Evaluates pull requests against architectural invariants, dependency boundaries, and memory leak patterns.",
+    "status": "active",
+    "category": "Developer Tools",
+    "tags": [
+      "PowerShell",
+      "AI",
+      "Code Review",
+      "Automation",
+      "CI-CD"
+    ],
+    "repo": "Crystal-Studio-Labs/Argus",
+    "homepage": "https://github.com/Crystal-Studio-Labs/Argus",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/Argus.git",
+    "usage": "./Argus.ps1 -TargetRepo \"./my-project\" -EnforceInvariants -AuditDepth Full",
+    "features": [
+      "3-stage progressive review pipeline: Syntax, Security, and Architectural Invariants",
+      "Enforces zero native build bindings and sub-25MB memory budgets",
+      "Generates actionable GitHub PR review comments with diff suggestions",
+      "Native PowerShell Core cross-platform execution (Linux, macOS, Windows)"
+    ],
+    "featured": true,
+    "order": 6,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "PowerShell",
+      "lastPush": "2026-08-08T18:58:06Z"
+    }
+  },
+  {
+    "id": "crystal-heimdall",
+    "name": "Crystal-Heimdall",
+    "tagline": "High-performance status page & uptime sentinel with Web Push",
+    "description": "High-performance distributed status platform and uptime monitoring sentinel. Features AES-256-GCM encrypted TOTP authentication, closed-browser W3C Web Push notifications (RFC 8292 VAPID), Server-Sent Events (SSE) live telemetry, and automated postmortem RCA generator.",
+    "status": "active",
+    "category": "Observability",
+    "tags": [
+      "Status Page",
+      "TypeScript",
+      "Uptime",
+      "Monitoring",
+      "VAPID"
+    ],
+    "repo": "Crystal-Studio-Labs/Crystal-Heimdall",
+    "homepage": "https://github.com/Crystal-Studio-Labs/Crystal-Heimdall",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/Crystal-Heimdall.git && cd Crystal-Heimdall && npm install",
+    "usage": "npm run dev",
+    "features": [
+      "Sub-50ms cold-start status API queries backed by LibSQL and Edge CDN caching",
+      "Closed-browser W3C Web Push notification delivery for instant outage alarms",
+      "Real-time Server-Sent Events (/api/v1/status/stream) with zero polling",
+      "Automated incident postmortem engine with MTTR and markdown generation"
+    ],
+    "featured": true,
+    "order": 7,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "TypeScript",
+      "lastPush": "2026-11-08T19:21:39Z"
+    }
+  },
+  {
+    "id": "gitcraft",
+    "name": "GitCraft",
+    "tagline": "Interactive Git branch visualizer & command learning sandbox",
+    "description": "Interactive, browser-based Git visualizer and command learning sandbox. Renders atomic directed acyclic graphs (DAG) representing commits, rebases, merges, and cherry-picks with real-time state manipulation.",
+    "status": "active",
+    "category": "Developer Tools",
+    "tags": [
+      "Git",
+      "TypeScript",
+      "Visualization",
+      "Education",
+      "Interactive"
+    ],
+    "repo": "Crystal-Studio-Labs/GitCraft",
+    "homepage": "https://github.com/Crystal-Studio-Labs/GitCraft",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/GitCraft.git && cd GitCraft && npm install",
+    "usage": "npm run dev",
+    "features": [
+      "Zero-latency canvas commit tree rendering with Bezier branch links",
+      "Interactive step-by-step rebase and merge conflict simulator",
+      "Virtual in-memory Git object store executing commands locally",
+      "Export branch topologies directly to SVG and Mermaid diagram code"
+    ],
+    "featured": false,
+    "order": 8,
+    "githubStats": {
+      "stars": 1,
+      "forks": 0,
+      "language": "TypeScript",
+      "lastPush": "2026-08-16T19:30:13Z"
+    }
+  },
+  {
+    "id": "campus-relay",
+    "name": "Campus-Relay",
+    "tagline": "Resilient offline campus operating system for BPUT Hackathon",
+    "description": "Resilient, local-first campus operating system engineered for institutional communication during network outages. Built for BPUT Hackathon 2026, pairing distributed batch launching with offline cryptographic notice distribution.",
+    "status": "active",
+    "category": "Systems & SDKs",
+    "tags": [
+      "Python",
+      "Resilience",
+      "Offline-First",
+      "Hackathon",
+      "Networking"
+    ],
+    "repo": "Crystal-Studio-Labs/Campus-Relay",
+    "homepage": "https://github.com/Crystal-Studio-Labs/Campus-Relay",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/Campus-Relay.git && cd Campus-Relay && pip install -r requirements.txt",
+    "usage": "python -m campus_relay.server --port 8080 --offline-mode",
+    "features": [
+      "Decentralized peer mesh synchronization across campus local area networks",
+      "Cryptographically signed notices preventing spoofing during connectivity drops",
+      "Lightweight SQLite and flat-file backing with instant zero-loss recovery",
+      "Multi-role permissions model: Administration, Faculty, and Student terminals"
+    ],
+    "featured": false,
+    "order": 9,
+    "githubStats": {
+      "stars": 1,
+      "forks": 0,
+      "language": "Python",
+      "lastPush": "2026-10-11T05:02:13Z"
+    }
+  },
+  {
+    "id": "crystal-uptime",
+    "name": "Crystal-Uptime",
+    "tagline": "Distributed latency probe & heartbeat verification daemon",
+    "description": "Lightweight, distributed daemon that executes scheduled synthetic probes (HTTP, TCP, DNS, TLS) against infrastructure endpoints, publishing atomic status batches directly to Crystal-Heimdall.",
+    "status": "active",
+    "category": "Observability",
+    "tags": [
+      "JavaScript",
+      "Node.js",
+      "Probing",
+      "Heartbeat",
+      "Uptime"
+    ],
+    "repo": "Crystal-Studio-Labs/Crystal-Uptime",
+    "homepage": "https://github.com/Crystal-Studio-Labs/Crystal-Uptime",
+    "install": "npm install -g crystal-uptime",
+    "usage": "crystal-uptime --config ./probes.json --report-url https://status.crystalstudiolabs.org/api/v1/heartbeat",
+    "features": [
+      "Ultra-low resource footprint consuming <15MB RSS memory",
+      "Multi-protocol synthetic assertions: HTTP status, TLS expiry, DNS latency",
+      "Exponential jitter backoff preventing thundering herd load on servers",
+      "HMAC-SHA256 signature verification for upstream probe ingestion"
+    ],
+    "featured": false,
+    "order": 10,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "JavaScript",
+      "lastPush": "2026-08-05T20:10:00Z"
+    }
+  },
+  {
+    "id": "crystal-auth",
+    "name": "crystal-auth",
+    "tagline": "Lightweight zero-trust session token broker & validator",
+    "description": "Zero-trust session token broker and cryptographic validator for distributed microservices. Implements compact Edwards-curve (Ed25519) asymmetric signatures for frictionless cross-service authentication without central database lookups.",
+    "status": "beta",
+    "category": "Security & Auth",
+    "tags": [
+      "Auth",
+      "TypeScript",
+      "Security",
+      "Ed25519",
+      "Zero-Trust"
+    ],
+    "repo": "Crystal-Studio-Labs/crystal-auth",
+    "homepage": "https://github.com/Crystal-Studio-Labs/crystal-auth",
+    "install": "npm install @crystal-studio/auth",
+    "usage": "import { TokenBroker } from '@crystal-studio/auth';\nconst broker = new TokenBroker({ privateKey: process.env.AUTH_KEY });\nconst token = await broker.issueSessionToken({ sub: 'user-001', roles: ['admin'] });",
+    "features": [
+      "Stateless session validation with sub-microsecond token parsing",
+      "High-speed Ed25519 cryptographic signature verification",
+      "Automatic replay attack rejection via microsecond nonce windows",
+      "Native compatibility with Cloudflare Workers, Node.js, and Vercel Edge"
+    ],
+    "featured": false,
+    "order": 11,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "TypeScript",
+      "lastPush": "2026-06-18T17:19:36Z"
+    }
+  },
+  {
+    "id": "crystal-scrims-manager",
+    "name": "Crystal-Scrims-Manager",
+    "tagline": "Esports tournament points calculator & automated match scheduler",
+    "description": "Autonomous Discord and web management system for esports tournament organizers. Computes complex match placement points, kill multipliers, team rosters, and automated leaderboard channels with anti-misclick protections.",
+    "status": "active",
+    "category": "Automation & Bots",
+    "tags": [
+      "TypeScript",
+      "Discord",
+      "Esports",
+      "Automation",
+      "Bot"
+    ],
+    "repo": "Crystal-Studio-Labs/Crystal-Scrims-Manager",
+    "homepage": "https://github.com/Crystal-Studio-Labs/Crystal-Scrims-Manager",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/Crystal-Scrims-Manager.git && cd Crystal-Scrims-Manager && npm install",
+    "usage": "npm run start",
+    "features": [
+      "Dynamic multi-round point tally calculation with customizable tie-breaker rules",
+      "Automatic Discord channel synchronization with live SVG leaderboard embeds",
+      "Anti-misclick debounce locking scores against concurrent referee submissions",
+      "Export final tournament brackets to CSV and verified JSON"
+    ],
+    "featured": false,
+    "order": 12,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "TypeScript",
+      "lastPush": "2026-10-22T13:19:12Z"
+    }
+  },
+  {
+    "id": "crystalsystemjs-examples",
+    "name": "crystalsystemjs-examples",
+    "tagline": "Official recipes, CLI tools & alert integration examples",
+    "description": "Reference implementation repository for CrystalSystem.js. Demonstrates enterprise patterns including Prometheus metric exports, webhook alert conduits, terminal dashboard integrations, and custom threshold probes.",
+    "status": "active",
+    "category": "Documentation",
+    "tags": [
+      "JavaScript",
+      "Examples",
+      "Tutorials",
+      "Observability",
+      "Integration"
+    ],
+    "repo": "Crystal-Studio-Labs/crystalsystemjs-examples",
+    "homepage": "https://github.com/Crystal-Studio-Labs/crystalsystemjs-examples",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/crystalsystemjs-examples.git && cd crystalsystemjs-examples && npm install",
+    "usage": "node examples/01-basic-monitor.js",
+    "features": [
+      "Turnkey code snippets for Slack, Discord, and Webhook threshold alerting",
+      "Prometheus exposition format integration example",
+      "Multi-core CPU clustering resource prober recipes",
+      "Zero-external-dependency terminal dashboard reference implementation"
+    ],
+    "featured": false,
+    "order": 13,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "JavaScript",
+      "lastPush": "2026-04-19T19:11:55Z"
+    }
+  },
+  {
+    "id": "crystal-comics",
+    "name": "Crystal-Comics",
+    "tagline": "High-performance local-first manga & technical reader",
+    "description": "High-performance, local-first technical graphic novel and manga reading web application. Prioritizes instant page loading via client-side caching, virtualized canvas rendering, and zero tracking.",
+    "status": "active",
+    "category": "Web & UI",
+    "tags": [
+      "TypeScript",
+      "Reader",
+      "Web",
+      "UI",
+      "Local-First"
+    ],
+    "repo": "Crystal-Studio-Labs/Crystal-Comics",
+    "homepage": "https://github.com/Crystal-Studio-Labs/Crystal-Comics",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/Crystal-Comics.git && cd Crystal-Comics && npm install",
+    "usage": "npm run dev",
+    "features": [
+      "Virtualized dual-page and webtoon vertical scroll rendering engines",
+      "Offline reading cache with background chunk pre-fetching",
+      "Custom reading progression memory stored in localStorage",
+      "Zero external analytics, zero invasive advertising"
+    ],
+    "featured": false,
+    "order": 14,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "TypeScript",
+      "lastPush": "2026-07-25T17:53:55Z"
+    }
+  },
+  {
+    "id": "krishisetu-ml-model",
+    "name": "KrishiSetu-ML-Model",
+    "tagline": "Agricultural machine learning weights & inference pipeline",
+    "description": "Agricultural machine learning model repository featuring quantized TensorFlow Lite and ONNX weights for crop disease diagnosis, soil nutrient analysis, and yield forecasting.",
+    "status": "active",
+    "category": "AI & Machine Learning",
+    "tags": [
+      "Python",
+      "Machine Learning",
+      "TFLite",
+      "ONNX",
+      "Agriculture"
+    ],
+    "repo": "Crystal-Studio-Labs/KrishiSetu-ML-Model",
+    "homepage": "https://github.com/Crystal-Studio-Labs/KrishiSetu-ML-Model",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/KrishiSetu-ML-Model.git && pip install -r requirements.txt",
+    "usage": "python predict.py --model models/crop_disease_v2.tflite --input sample.jpg",
+    "features": [
+      "Quantized 8-bit model weights optimized for mobile edge inference",
+      "Pre-processing pipeline supporting varying aspect ratios and lightning conditions",
+      "Confidence score calibration with calibrated threshold safeguards",
+      "Zero cloud inference requirement (100% offline edge execution)"
+    ],
+    "featured": false,
+    "order": 15,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "Python",
+      "lastPush": "2026-09-29T07:37:21Z"
+    }
+  },
+  {
+    "id": "oac-linktree",
+    "name": "OAC-Linktree",
+    "tagline": "Community landing hub and link distribution portal",
+    "description": "High-performance, brutalist community landing hub and link distribution portal. Built with Vite and TypeScript, featuring 12-language localized typewriter hero, PWA installability, and 0-dependency architecture.",
+    "status": "active",
+    "category": "Web & UI",
+    "tags": [
+      "TypeScript",
+      "Portal",
+      "Community",
+      "PWA",
+      "Vite"
+    ],
+    "repo": "Crystal-Studio-Labs/OAC-Linktree",
+    "homepage": "https://github.com/Crystal-Studio-Labs/OAC-Linktree",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/OAC-Linktree.git && cd OAC-Linktree && npm install",
+    "usage": "npm run dev",
+    "features": [
+      "12-language localized typewriter script with zero external dependencies",
+      "Progressive Web App (PWA) manifest with offline caching service worker",
+      "High-contrast brutalist styling with accessible WCAG AA color tokens",
+      "Under 45KB total gzipped JavaScript payload"
+    ],
+    "featured": false,
+    "order": 16,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "TypeScript",
+      "lastPush": "2026-11-02T19:38:22Z"
+    }
+  },
+  {
+    "id": "dot-github",
+    "name": "dot-github",
+    "tagline": "Organization-wide profile configuration & health standards",
+    "description": "Master repository housing organization-wide community health files, standard issue templates, pull request checklists, Contributor Covenant v2.1 code of conduct, and security disclosure policies.",
+    "status": "active",
+    "category": "Governance & Metadata",
+    "tags": [
+      "GitHub",
+      "Governance",
+      "Community",
+      "Security",
+      "Standards"
+    ],
+    "repo": "Crystal-Studio-Labs/.github",
+    "homepage": "https://github.com/Crystal-Studio-Labs/.github",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/.github.git",
+    "usage": "cat profile/README.md",
+    "features": [
+      "Standardized GitHub Issue and Pull Request markdown templates",
+      "Coordinated Vulnerability Disclosure (SECURITY.md) guidelines",
+      "Contributor Covenant v2.1 code of conduct enforcement",
+      "Official organization-level README banner and architectural invariants"
+    ],
+    "featured": false,
+    "order": 17,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "Markdown",
+      "lastPush": "2026-06-23T19:07:03Z"
+    }
+  },
+  {
+    "id": "crystal-studio-labs-portal",
+    "name": "Crystal-Studio-Labs.github.io",
+    "tagline": "Official organization platform & repository catalog",
+    "description": "The official developer portal and static repository catalog for Crystal Studio Labs. Built with Astro, featuring Cyber-Brutalist design language, build-time GitHub API aggregation, real-time client search, and zero-JS static pre-rendering.",
+    "status": "active",
+    "category": "Web & UI",
+    "tags": [
+      "Astro",
+      "TypeScript",
+      "GitHub Pages",
+      "Static",
+      "Cyber-Brutalism"
+    ],
+    "repo": "Crystal-Studio-Labs/Crystal-Studio-Labs.github.io",
+    "homepage": "https://crystal-studio-labs.github.io",
+    "install": "git clone https://github.com/Crystal-Studio-Labs/Crystal-Studio-Labs.github.io.git && cd Crystal-Studio-Labs.github.io && npm install",
+    "usage": "npm run dev",
+    "features": [
+      "100% pre-rendered static HTML with zero client runtime required for reading",
+      "Data-driven architecture powered by JSON collections and schema validation",
+      "Build-time GitHub API fleet telemetry synchronization with client-side fallback",
+      "Cyber-brutalist tactile design with dark/light themes and 100/100 Lighthouse target"
+    ],
+    "featured": false,
+    "order": 18,
+    "githubStats": {
+      "stars": 0,
+      "forks": 0,
+      "language": "Astro",
+      "lastPush": "2026-11-09T17:15:23Z"
+    }
+  }
+]

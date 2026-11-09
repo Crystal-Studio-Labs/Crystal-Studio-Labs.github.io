@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CrystalStudioLabsProjectCatalog",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "name",
+      "tagline",
+      "description",
+      "status",
+      "category",
+      "tags",
+      "repo",
+      "homepage",
+      "install",
+      "usage",
+      "features",
+      "featured",
+      "order"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "name": {
+        "type": "string"
+      },
+      "tagline": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["active", "beta", "planned", "archived"]
+      },
+      "category": {
+        "type": "string"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "repo": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+      },
+      "homepage": {
+        "type": "string"
+      },
+      "install": {
+        "type": "string"
+      },
+      "usage": {
+        "type": "string"
+      },
+      "features": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "featured": {
+        "type": "boolean"
+      },
+      "order": {
+        "type": "integer"
+      },
+      "image": {
+        "type": "string"
+      },
+      "githubStats": {
+        "type": "object",
+        "properties": {
+          "stars": { "type": "integer" },
+          "forks": { "type": "integer" },
+          "language": { "type": ["string", "null"] },
+          "lastPush": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

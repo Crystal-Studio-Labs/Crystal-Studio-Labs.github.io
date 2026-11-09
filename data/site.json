@@ -1,0 +1,24 @@
+{
+  "name": "Crystal Studio Labs",
+  "tagline": "Autonomous Systems, Developer Tooling & Resilient Architectures",
+  "description": "An open-source engineering collective dedicated to lightweight system utilities, terminal interfaces, decentralized networks, and high-performance developer tools.",
+  "url": "https://crystal-studio-labs.github.io",
+  "github": "https://github.com/Crystal-Studio-Labs",
+  "email": "connect.crystalstudio@gmail.com",
+  "themeColor": "#0A0D12",
+  "accentColor": "#00F0FF",
+  "nav": [
+    { "label": "HOME", "href": "/" },
+    { "label": "PROJECTS", "href": "/projects/" },
+    { "label": "ABOUT", "href": "/about/" },
+    { "label": "GET INVOLVED", "href": "/get-involved/" }
+  ],
+  "social": {
+    "github": "https://github.com/Crystal-Studio-Labs",
+    "email": "mailto:connect.crystalstudio@gmail.com"
+  },
+  "footer": {
+    "license": "MIT Open Source",
+    "copy": "© 2026 Crystal Studio Labs. All rights reserved. Zero proprietary telemetry."
+  }
+}
