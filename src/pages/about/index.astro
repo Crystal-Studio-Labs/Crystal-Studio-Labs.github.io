@@ -1,0 +1,488 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import site from '../../../data/site.json';
+import team from '../../../data/team.json';
+import projects from '../../../data/projects.json';
+
+const totalRepos = projects.length;
+const totalStars = projects.reduce((acc, p) => acc + (p.githubStats?.stars || 0), 0);
+---
+
+<BaseLayout 
+  title="About the Organization | Crystal Studio Labs"
+  description="Learn about Crystal Studio Labs: our open-source mission, architectural invariants, systems engineering focus, and core maintainers."
+  currentPath="/about/"
+>
+  <div class="about-page">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb navigation">
+        <ol class="breadcrumb-list">
+          <li><a href="/" class="crumb-link">ROOT</a></li>
+          <li class="crumb-separator">/</li>
+          <li class="crumb-current" aria-current="page">ABOUT</li>
+        </ol>
+      </nav>
+
+      <!-- Page Header -->
+      <header class="about-header brutalist-card">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-tr"></div>
+        <div class="hud-corner hud-corner-bl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+
+        <div class="section-marker">// 01 ORGANIZATION_PROFILE</div>
+        <h1 class="about-headline">MISSION & ARCHITECTURE</h1>
+        <p class="about-lead">
+          Crystal Studio Labs is an independent open-source engineering lab founded to build fast, 
+          resilient, and respectful software. We reject telemetry creep, bloated dependencies, and opaque runtimes.
+        </p>
+
+        <div class="about-metrics-row">
+          <div class="metric-chip">
+            <span class="m-val">{totalRepos}</span>
+            <span class="m-lbl">PUBLIC REPOSITORIES</span>
+          </div>
+          <div class="metric-chip">
+            <span class="m-val">{totalStars}</span>
+            <span class="m-lbl">VERIFIED STARS</span>
+          </div>
+          <div class="metric-chip">
+            <span class="m-val">100%</span>
+            <span class="m-lbl">PERMISSIVE OPEN SOURCE</span>
+          </div>
+          <div class="metric-chip">
+            <span class="m-val">&lt;25MB</span>
+            <span class="m-lbl">MEMORY CEILING</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Columns -->
+      <div class="about-content-grid">
+        <!-- Main Column -->
+        <div class="about-main-col">
+          <!-- Mission Statement -->
+          <section class="brutalist-card about-section">
+            <div class="section-marker">// CORE PHILOSOPHY</div>
+            <h2 class="section-title">WHY WE BUILD</h2>
+            <p class="body-text">
+              Modern developer tooling and consumer software have drifted toward excessive resource consumption, 
+              intrusive background telemetry, and fragile cloud lock-in. A simple utility should not demand hundreds 
+              of megabytes of memory or require external API connections to perform local tasks.
+            </p>
+            <p class="body-text">
+              Crystal Studio Labs operates on a foundational discipline: <strong>software must be predictable, transparent, and respectful of the host machine</strong>. 
+              We prioritize POSIX-compliant shell scripts, zero-dependency Node.js modules, local-first data persistence, 
+              and clear cryptographic privacy.
+            </p>
+          </section>
+
+          <!-- Engineering Domains -->
+          <section class="brutalist-card about-section">
+            <div class="section-marker">// FOCUS DOMAINS</div>
+            <h2 class="section-title">WHAT WE ENGINEER</h2>
+            <div class="domains-grid">
+              <div class="domain-box">
+                <div class="domain-code">[01]</div>
+                <h3 class="domain-name">Low-Overhead Systems & Monitoring</h3>
+                <p class="domain-desc">
+                  Zero-dependency telemetry probers like <code>crystalsystem.js</code> and distributed heartbeats 
+                  that enforce strict sub-25MB memory ceilings.
+                </p>
+              </div>
+
+              <div class="domain-box">
+                <div class="domain-code">[02]</div>
+                <h3 class="domain-name">CLI & Linux Desktop Utilities</h3>
+                <p class="domain-desc">
+                  Turnkey tools like <code>MenuForge</code> that automate compliance with FreeDesktop.org standards 
+                  across standard Linux distributions.
+                </p>
+              </div>
+
+              <div class="domain-box">
+                <div class="domain-code">[03]</div>
+                <h3 class="domain-name">Encrypted Peer Networks</h3>
+                <p class="domain-desc">
+                  Decentralized systems like <code>Orion-Net</code> and <code>Orion-Deck</code> offering ephemeral 
+                  in-memory chat rooms and end-to-end encryption.
+                </p>
+              </div>
+
+              <div class="domain-box">
+                <div class="domain-code">[04]</div>
+                <h3 class="domain-name">Developer Guardians & Sandboxes</h3>
+                <p class="domain-desc">
+                  Static analysis and architecture guardians like <code>Argus</code> and interactive visualizers 
+                  like <code>GitCraft</code> that teach and protect codebase integrity.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Maintainers & Team -->
+          <section class="brutalist-card about-section">
+            <div class="section-marker">// TEAM_ROSTER</div>
+            <h2 class="section-title">CORE MAINTAINERS</h2>
+            <div class="team-grid">
+              {team.map(member => (
+                <div class="team-member-card">
+                  <div class="member-top">
+                    <img 
+                      src={member.avatar} 
+                      alt={member.name} 
+                      class="member-avatar"
+                      width="56"
+                      height="56"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h3 class="member-name">{member.name}</h3>
+                      <div class="member-role">{member.role}</div>
+                    </div>
+                  </div>
+                  <p class="member-bio">{member.bio}</p>
+                  <div class="member-links">
+                    <a href={member.github} target="_blank" rel="noopener noreferrer" class="member-link">
+                      GITHUB ↗
+                    </a>
+                    {member.website && (
+                      <a href={member.website} target="_blank" rel="noopener noreferrer" class="member-link">
+                        PORTFOLIO ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="about-sidebar">
+          <div class="brutalist-card sidebar-box">
+            <div class="section-marker">// INVARIANT_MATRIX</div>
+            <h3 class="sidebar-head">THE 4 INVARIANTS</h3>
+            <ul class="invariants-list">
+              <li>
+                <strong>01. Sub-25MB Ceiling:</strong> Daemons & tools are hard-limited to &lt;25MB RSS memory.
+              </li>
+              <li>
+                <strong>02. Zero Native Bindings:</strong> No node-gyp or platform build chains required.
+              </li>
+              <li>
+                <strong>03. Offline Resilience:</strong> Complete autonomy with client-side state caches.
+              </li>
+              <li>
+                <strong>04. Factuality:</strong> Real numbers, real code, zero synthetic hype.
+              </li>
+            </ul>
+          </div>
+
+          <div class="brutalist-card sidebar-box">
+            <div class="section-marker">// DISPATCH_INFO</div>
+            <h3 class="sidebar-head">COMMUNICATIONS</h3>
+            <p class="sidebar-text">
+              Direct inquiries regarding security, architecture, or collaboration:
+            </p>
+            <div class="dispatch-address">
+              <span class="address-lbl">OFFICIAL EMAIL:</span>
+              <a href={site.social.email} class="address-val">{site.email}</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    padding: 2.5rem 0 5rem;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb-nav {
+    margin-bottom: 1.5rem;
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .crumb-link {
+    color: var(--text-muted);
+  }
+
+  .crumb-link:hover {
+    color: var(--accent-cyan);
+  }
+
+  .crumb-separator {
+    color: var(--text-muted);
+  }
+
+  .crumb-current {
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+
+  /* Header Card */
+  .about-header {
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    background-color: var(--bg-surface);
+  }
+
+  .about-headline {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-lead {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 800px;
+    margin-bottom: 2rem;
+  }
+
+  .about-metrics-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
+  }
+
+  .metric-chip {
+    display: flex;
+    flex-direction: column;
+    padding: 0.85rem 1rem;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+  }
+
+  .m-val {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+  }
+
+  .m-lbl {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Content Grid */
+  .about-content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .about-content-grid {
+      grid-template-columns: 1fr 340px;
+    }
+  }
+
+  .about-main-col {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .about-section {
+    padding: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .body-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .body-text:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Domains Grid */
+  .domains-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .domains-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .domain-box {
+    border: 1.5px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+    padding: 1.25rem;
+  }
+
+  .domain-code {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+  }
+
+  .domain-name {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+
+  .domain-desc {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+
+  /* Team Roster */
+  .team-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .team-member-card {
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+    padding: 1.5rem;
+  }
+
+  .member-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .member-avatar {
+    width: 56px;
+    height: 56px;
+    border: 2px solid var(--accent-cyan);
+    border-radius: 0;
+  }
+
+  .member-name {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+  }
+
+  .member-role {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+
+  .member-bio {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .member-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .member-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .member-link:hover {
+    color: var(--accent-cyan);
+  }
+
+  /* Sidebar */
+  .about-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .sidebar-box {
+    padding: 1.5rem;
+  }
+
+  .sidebar-head {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .invariants-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .invariants-list strong {
+    color: var(--text-primary);
+    display: block;
+    font-family: var(--font-mono);
+    margin-bottom: 0.15rem;
+  }
+
+  .sidebar-text {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .dispatch-address {
+    border: 1.5px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+    padding: 0.875rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .address-lbl {
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .address-val {
+    color: var(--accent-cyan);
+    word-break: break-all;
+    font-weight: 700;
+  }
+</style>

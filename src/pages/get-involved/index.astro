@@ -1,0 +1,530 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import site from '../../../data/site.json';
+---
+
+<BaseLayout 
+  title="Get Involved & Contribute | Crystal Studio Labs"
+  description="Learn how to contribute to Crystal Studio Labs: RFC process, pull request standards, coordinated vulnerability disclosures, and community discussions."
+  currentPath="/get-involved/"
+>
+  <div class="involvement-page">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb navigation">
+        <ol class="breadcrumb-list">
+          <li><a href="/" class="crumb-link">ROOT</a></li>
+          <li class="crumb-separator">/</li>
+          <li class="crumb-current" aria-current="page">GET_INVOLVED</li>
+        </ol>
+      </nav>
+
+      <!-- Page Header -->
+      <header class="page-header brutalist-card">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-tr"></div>
+        <div class="hud-corner hud-corner-bl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+
+        <div class="section-marker">// 03 OPEN_SOURCE_COLLABORATION</div>
+        <h1 class="page-headline">GET INVOLVED</h1>
+        <p class="page-lead">
+          We welcome contributions from engineers, Linux system administrators, security researchers, 
+          and developers who share our dedication to minimal overhead, rigorous testing, and transparent architectures.
+        </p>
+
+        <div class="quick-conduits-row">
+          <a href={`${site.github}`} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <span>GITHUB DISCUSSIONS</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a href={`${site.github}`} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            <span>BROWSE OPEN ISSUES</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a href={`mailto:${site.email}`} class="btn btn-secondary">
+            <span>SECURITY ADVISORY</span>
+            <span aria-hidden="true">✉</span>
+          </a>
+        </div>
+      </header>
+
+      <div class="involvement-grid">
+        <!-- Main Column -->
+        <div class="involvement-main">
+          <!-- Contribution Workflow -->
+          <section class="brutalist-card section-card">
+            <div class="section-marker">// WORKFLOW_PROTOCOL</div>
+            <h2 class="subhead">HOW TO CONTRIBUTE</h2>
+            <div class="steps-list">
+              <div class="step-item">
+                <div class="step-badge">STEP_01</div>
+                <div class="step-content">
+                  <h3 class="step-title">Select or File an Issue</h3>
+                  <p class="step-desc">
+                    Browse open issues across the <a href={site.github} target="_blank" rel="noopener noreferrer" class="text-link">Crystal Studio Labs GitHub organization</a>. 
+                    Before beginning work on major features or architectural refactors, file an issue to confirm alignment with maintainers.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-badge">STEP_02</div>
+                <div class="step-content">
+                  <h3 class="step-title">Fork & Branch with Conventional Naming</h3>
+                  <p class="step-desc">
+                    Fork the targeted repository and create a dedicated topic branch:
+                    <code>feat/feature-name</code>, <code>fix/issue-description</code>, or <code>docs/update-guide</code>.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-badge">STEP_03</div>
+                <div class="step-content">
+                  <h3 class="step-title">Enforce Invariants & Run Tests</h3>
+                  <p class="step-desc">
+                    Ensure your pull request maintains the sub-25MB memory budget, introduces zero native build dependencies (no node-gyp), 
+                    and passes all automated unit and smoke tests.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-badge">STEP_04</div>
+                <div class="step-content">
+                  <h3 class="step-title">Open Pull Request with Conventional Commits</h3>
+                  <p class="step-desc">
+                    Submit your pull request formatted with Conventional Commits (<code>feat:</code>, <code>fix:</code>, <code>refactor:</code>, <code>docs:</code>, <code>test:</code>). 
+                    Include test output and benchmark evidence in the PR description.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4-Stage RFC Framework -->
+          <section class="brutalist-card section-card">
+            <div class="section-marker">// GOVERNANCE_SPECIFICATION</div>
+            <h2 class="subhead">4-STAGE RFC LIFECYCLE</h2>
+            <p class="section-p">
+              Substantial architectural changes, new protocol specs, or repository additions follow our Request for Comments (RFC) process:
+            </p>
+
+            <div class="rfc-stages-grid">
+              <div class="rfc-box">
+                <div class="rfc-tag rfc-draft">STAGE 0: DRAFT PROPOSAL</div>
+                <p class="rfc-text">
+                  Initial motivation and problem statement submitted as a GitHub Discussion thread. Gathers early feedback on necessity.
+                </p>
+              </div>
+
+              <div class="rfc-box">
+                <div class="rfc-tag rfc-debate">STAGE 1: COMMUNITY DEBATE</div>
+                <p class="rfc-text">
+                  Maintainers and community evaluate cross-platform ergonomics, backward compatibility, and alternative approaches.
+                </p>
+              </div>
+
+              <div class="rfc-box">
+                <div class="rfc-tag rfc-audit">STAGE 2: INVARIANT AUDIT</div>
+                <p class="rfc-text">
+                  Strict verification of memory ceilings (&lt;25MB), offline viability, license suitability, and dependency footprints.
+                </p>
+              </div>
+
+              <div class="rfc-box">
+                <div class="rfc-tag rfc-ship">STAGE 3: SHIPPED & MERGED</div>
+                <p class="rfc-text">
+                  RFC is approved, implementation pull request is merged to <code>main</code>, and changes are tagged with an atomic SemVer release.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Vulnerability Disclosure -->
+          <section class="brutalist-card section-card">
+            <div class="section-marker">// SECURITY_POLICY</div>
+            <h2 class="subhead">COORDINATED VULNERABILITY DISCLOSURE</h2>
+            <p class="section-p">
+              We take security disclosures seriously. If you identify a security vulnerability, buffer overflow, 
+              denial-of-service vector, or token leakage in any Crystal Studio Labs repository, please follow our coordinated disclosure policy:
+            </p>
+
+            <div class="security-card">
+              <div class="security-row">
+                <span class="sec-label">PRIMARY DISCLOSURE EMAIL:</span>
+                <a href={`mailto:${site.email}`} class="sec-val">{site.email}</a>
+              </div>
+              <div class="security-row">
+                <span class="sec-label">INITIAL RESPONSE SLA:</span>
+                <span class="sec-val">&lt; 24 Hours Acknowledgment</span>
+              </div>
+              <div class="security-row">
+                <span class="sec-label">PATCH DEPLOYMENT SLA:</span>
+                <span class="sec-val">&lt; 72 Hours for Critical Advisories</span>
+              </div>
+              <div class="security-row">
+                <span class="sec-label">SAFE HARBOR:</span>
+                <span class="sec-val">Full protection for ethical researchers reporting in good faith</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="involvement-sidebar">
+          <div class="brutalist-card sidebar-box">
+            <div class="section-marker">// CODE_OF_CONDUCT</div>
+            <h3 class="sidebar-head">COMMUNITY STANDARDS</h3>
+            <p class="sidebar-p">
+              We enforce the <strong>Contributor Covenant v2.1</strong> across all organization discussions, 
+              pull requests, and issue trackers.
+            </p>
+            <p class="sidebar-p">
+              We are committed to providing a welcoming, harassment-free environment for everyone, 
+              regardless of experience, background, or identity.
+            </p>
+            <a href={`${site.github}/.github/blob/main/CODE_OF_CONDUCT.md`} target="_blank" rel="noopener noreferrer" class="conduct-link">
+              READ FULL CODE OF CONDUCT ↗
+            </a>
+          </div>
+
+          <div class="brutalist-card sidebar-box">
+            <div class="section-marker">// COMMUNICATIONS</div>
+            <h3 class="sidebar-head">CHANNELS</h3>
+            <ul class="channels-list">
+              <li>
+                <a href={site.github} target="_blank" rel="noopener noreferrer" class="channel-link">
+                  <span class="ch-icon">◈</span>
+                  <span>GitHub Organization</span>
+                </a>
+              </li>
+              <li>
+                <a href={`${site.github}`} target="_blank" rel="noopener noreferrer" class="channel-link">
+                  <span class="ch-icon">💬</span>
+                  <span>Discussions & RFCs</span>
+                </a>
+              </li>
+              <li>
+                <a href={`mailto:${site.email}`} class="channel-link">
+                  <span class="ch-icon">✉</span>
+                  <span>Direct Maintainer Contact</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .involvement-page {
+    padding: 2.5rem 0 5rem;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb-nav {
+    margin-bottom: 1.5rem;
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .crumb-link {
+    color: var(--text-muted);
+  }
+
+  .crumb-link:hover {
+    color: var(--accent-cyan);
+  }
+
+  .crumb-separator {
+    color: var(--text-muted);
+  }
+
+  .crumb-current {
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+
+  /* Header Card */
+  .page-header {
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    background-color: var(--bg-surface);
+  }
+
+  .page-headline {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-lead {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 800px;
+    margin-bottom: 2rem;
+  }
+
+  .quick-conduits-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Grid Layout */
+  .involvement-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .involvement-grid {
+      grid-template-columns: 1fr 340px;
+    }
+  }
+
+  .involvement-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .section-card {
+    padding: 2rem;
+  }
+
+  .subhead {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-p {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .text-link {
+    color: var(--accent-cyan);
+    text-decoration: underline;
+  }
+
+  /* Steps List */
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .step-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .step-item {
+      flex-direction: row;
+      gap: 1.25rem;
+    }
+  }
+
+  .step-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .step-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    border: 1.5px solid var(--accent-cyan);
+    padding: 0.35rem 0.65rem;
+    height: fit-content;
+    white-space: nowrap;
+    background-color: var(--accent-cyan-dim);
+  }
+
+  .step-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 0.35rem;
+  }
+
+  .step-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  .step-desc code {
+    background-color: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
+    padding: 0.15rem 0.35rem;
+    font-size: 0.8125rem;
+    color: var(--accent-cyan);
+  }
+
+  /* RFC Stages */
+  .rfc-stages-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .rfc-stages-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .rfc-box {
+    border: 1.5px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+    padding: 1.25rem;
+  }
+
+  .rfc-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+  }
+
+  .rfc-draft { color: var(--accent-cyan); }
+  .rfc-debate { color: var(--accent-amber); }
+  .rfc-audit { color: #a855f7; }
+  .rfc-ship { color: var(--accent-green); }
+
+  .rfc-text {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+
+  /* Security Card */
+  .security-card {
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .security-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+  }
+
+  .security-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .sec-label {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+
+  .sec-val {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  .sec-val a, a.sec-val {
+    color: var(--accent-cyan);
+  }
+
+  /* Sidebar */
+  .involvement-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .sidebar-box {
+    padding: 1.5rem;
+  }
+
+  .sidebar-head {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .conduct-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    display: inline-block;
+  }
+
+  .conduct-link:hover {
+    text-decoration: underline;
+  }
+
+  .channels-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .channel-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+    transition: all 0.15s ease;
+  }
+
+  .channel-link:hover {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    transform: translateX(2px);
+  }
+
+  .ch-icon {
+    color: var(--accent-cyan);
+  }
+</style>

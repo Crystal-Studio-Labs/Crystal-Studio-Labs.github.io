@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import site from '../../data/site.json';
+---
+
+<BaseLayout 
+  title="404: Resource Not Found | Crystal Studio Labs"
+  description="The requested resource or endpoint was not found on Crystal Studio Labs."
+>
+  <div class="error-page-container">
+    <div class="container">
+      <div class="brutalist-card error-card">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-tr"></div>
+        <div class="hud-corner hud-corner-bl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+
+        <div class="section-marker">// ERROR_STATE_404</div>
+        <h1 class="error-title">HTTP 404: NOT FOUND</h1>
+        <div class="error-code-badge">[FAULT: E_RESOURCE_NOT_LOCATED]</div>
+
+        <p class="error-message">
+          The requested endpoint or document cannot be found in the Crystal Studio Labs static repository tree. 
+          The target may have been relocated, archived, or purged.
+        </p>
+
+        <div class="error-actions">
+          <a href="/" class="btn btn-primary">
+            <span>← RETURN TO ROOT [HOME]</span>
+          </a>
+          <a href="/projects/" class="btn btn-secondary">
+            <span>EXPLORE FLEET [PROJECTS] →</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .error-page-container {
+    padding: 6rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+  }
+
+  .error-card {
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 3.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--bg-surface);
+  }
+
+  .error-title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+
+  .error-code-badge {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent-danger);
+    background-color: rgba(255, 51, 102, 0.1);
+    border: 1.5px solid var(--accent-danger);
+    padding: 0.35rem 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .error-message {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+</style>
