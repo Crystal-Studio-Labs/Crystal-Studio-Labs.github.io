@@ -1,0 +1,25 @@
+{
+  "name": "crystal-studio-labs-portal",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official developer platform and repository catalog for Crystal Studio Labs",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "node scripts/fetch-github-stats.mjs && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "validate:data": "node scripts/validate-data.mjs",
+    "fetch:stats": "node scripts/fetch-github-stats.mjs",
+    "test": "npm run validate:data"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "typescript": "^5.8.2"
+  }
+}
