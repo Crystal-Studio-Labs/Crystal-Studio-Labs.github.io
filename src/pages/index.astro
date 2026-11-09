@@ -1,0 +1,509 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import FleetCharts from '../components/FleetCharts.astro';
+import site from '../../data/site.json';
+import projects from '../../data/projects.json';
+
+const featuredProjects = projects
+  .filter(p => p.featured)
+  .sort((a, b) => a.order - b.order);
+
+const totalRepos = projects.length;
+const totalStars = projects.reduce((acc, p) => acc + (p.githubStats?.stars || 0), 0);
+const uniqueLanguages = [...new Set(projects.map(p => p.githubStats?.language).filter(Boolean))].length;
+---
+
+<BaseLayout 
+  title={`${site.name} | Autonomous Systems & Tools`}
+  description={site.description}
+>
+  <!-- Hero Section with Tactical Boot Sequence -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="section-marker">00 // SYSTEM_INITIALIZATION</div>
+        
+        <h1 class="hero-title" data-glitch="CRYSTAL STUDIO LABS">
+          CRYSTAL STUDIO LABS
+        </h1>
+        
+        <p class="hero-tagline">
+          {site.tagline}
+        </p>
+
+        <p class="hero-description">
+          An independent open-source engineering collective dedicated to lightweight systems utilities, 
+          terminal environments, encrypted peer networks, and high-performance developer tools. 
+          Built with zero proprietary telemetry and strict resource ceilings.
+        </p>
+
+        <!-- Dual Action CTAs -->
+        <div class="hero-ctas">
+          <a href="/projects/" class="btn btn-primary">
+            <span>EXPLORE FLEET [{totalRepos} REPOS]</span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="/get-involved/" class="btn btn-secondary">
+            <span>GET INVOLVED // CONTRIBUTE</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Cyber Terminal HUD Simulator -->
+      <div class="hero-terminal brutalist-card">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-tr"></div>
+        <div class="hud-corner hud-corner-bl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+
+        <div class="term-header">
+          <div class="term-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="term-title">csl-kernel-daemon v2.4.0 [SH-TTY0]</span>
+        </div>
+
+        <div class="term-body" id="boot-terminal">
+          <div class="term-line prompt-line">
+            <span class="term-prompt">$</span>
+            <span class="term-cmd">crystalsystem --audit --fleet-inspect</span>
+          </div>
+          <div class="term-line success-line">
+            <span class="term-prefix">[OK]</span>
+            <span>PROBER INITIALIZED: MEMORY ALLOCATED 14.2MB / 25.0MB CEILING</span>
+          </div>
+          <div class="term-line info-line">
+            <span class="term-prefix">[FLEET]</span>
+            <span>ALL {totalRepos} OPEN-SOURCE REPOSITORIES VERIFIED ONLINE</span>
+          </div>
+          <div class="term-line info-line">
+            <span class="term-prefix">[AUTH]</span>
+            <span>ED25519 ASYMMETRIC HANDSHAKE ESTABLISHED</span>
+          </div>
+          <div class="term-line info-line">
+            <span class="term-prefix">[TELEMETRY]</span>
+            <span>VERIFIED ZERO TRACKING PIXELS & ZERO VENDOR TELEMETRY</span>
+          </div>
+          <div class="term-line ready-line">
+            <span class="term-cursor">█</span>
+            <span>KERNEL LISTENING ON PORT 8443 (DECENTRALIZED_HUB)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Infinite Marquee Ticker -->
+  <div class="ticker-wrap" aria-label="Organization telemetry marquee">
+    <div class="ticker-move">
+      <div class="ticker-item"><span class="dot"></span> 18 OPEN-SOURCE REPOSITORIES</div>
+      <div class="ticker-item"><span class="dot"></span> STRICT &lt;25MB MEMORY CEILING</div>
+      <div class="ticker-item"><span class="dot"></span> ZERO VENDOR TELEMETRY</div>
+      <div class="ticker-item"><span class="dot"></span> 100% STATIC NATIVE HOSTING</div>
+      <div class="ticker-item"><span class="dot"></span> PERMISSIVE MIT LICENSES</div>
+      <div class="ticker-item"><span class="dot"></span> FREE DESKTOP SPECIFICATION COMPLIANT</div>
+      <div class="ticker-item"><span class="dot"></span> LIVE GITHUB REST API STREAM</div>
+      <!-- Duplicate for infinite seamless scroll -->
+      <div class="ticker-item"><span class="dot"></span> 18 OPEN-SOURCE REPOSITORIES</div>
+      <div class="ticker-item"><span class="dot"></span> STRICT &lt;25MB MEMORY CEILING</div>
+      <div class="ticker-item"><span class="dot"></span> ZERO VENDOR TELEMETRY</div>
+      <div class="ticker-item"><span class="dot"></span> 100% STATIC NATIVE HOSTING</div>
+      <div class="ticker-item"><span class="dot"></span> PERMISSIVE MIT LICENSES</div>
+      <div class="ticker-item"><span class="dot"></span> FREE DESKTOP SPECIFICATION COMPLIANT</div>
+      <div class="ticker-item"><span class="dot"></span> LIVE GITHUB REST API STREAM</div>
+    </div>
+  </div>
+
+  <!-- Metric Counters Dashboard -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="brutalist-card stat-card">
+          <div class="stat-number" data-count={totalRepos}>{totalRepos}</div>
+          <div class="stat-label">// TOTAL REPOSITORIES</div>
+          <div class="stat-desc">Open-source systems, tools, and libraries</div>
+        </div>
+
+        <div class="brutalist-card stat-card">
+          <div class="stat-number" data-count={totalStars}>{totalStars}</div>
+          <div class="stat-label">// REAL GITHUB STARS</div>
+          <div class="stat-desc">Community verified via GitHub API</div>
+        </div>
+
+        <div class="brutalist-card stat-card">
+          <div class="stat-number" data-count={uniqueLanguages}>{uniqueLanguages}</div>
+          <div class="stat-label">// CORE LANGUAGES</div>
+          <div class="stat-desc">Shell, Python, TypeScript, JS, PowerShell</div>
+        </div>
+
+        <div class="brutalist-card stat-card">
+          <div class="stat-number">25MB</div>
+          <div class="stat-label">// STRICT MEMORY CEILING</div>
+          <div class="stat-desc">Zero memory leaks, ultra-low resource profile</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architectural Invariants -->
+  <section class="invariants-section">
+    <div class="container">
+      <div class="section-marker">01 // CORE_ARCHITECTURAL_INVARIANTS</div>
+      <h2 class="section-title">ENGINEERING PRINCIPLES</h2>
+      <p class="section-lead">
+        Every system engineered by Crystal Studio Labs adheres to four strict architectural constraints. 
+        Zero bloat, zero native build chains, and complete transparency.
+      </p>
+
+      <div class="invariants-grid">
+        <div class="brutalist-card invariant-card">
+          <div class="invariant-num">INVARIANT_01</div>
+          <h3 class="invariant-title">Sub-25MB Memory Ceiling</h3>
+          <p class="invariant-desc">
+            All background daemons, monitoring probers, and CLI utilities are hard-limited to &lt;25MB RSS memory. 
+            Any pull request introducing memory creep or uncontrolled allocations is automatically rejected by our CI pipeline.
+          </p>
+        </div>
+
+        <div class="brutalist-card invariant-card">
+          <div class="invariant-num">INVARIANT_02</div>
+          <h3 class="invariant-title">Zero Native Build Bindings</h3>
+          <p class="invariant-desc">
+            Zero reliance on node-gyp, Python C-extensions, or platform-specific compile tools. 
+            Codebases must install and execute instantly across Linux, macOS, and Windows without build toolchains.
+          </p>
+        </div>
+
+        <div class="brutalist-card invariant-card">
+          <div class="invariant-num">INVARIANT_03</div>
+          <h3 class="invariant-title">100% Offline-First Resilience</h3>
+          <p class="invariant-desc">
+            Applications operate autonomously without external server dependencies. 
+            Client state is persisted locally via IndexedDB, SQLite, or POSIX flat files with zero loss during connectivity loss.
+          </p>
+        </div>
+
+        <div class="brutalist-card invariant-card">
+          <div class="invariant-num">INVARIANT_04</div>
+          <h3 class="invariant-title">Zero Synthetic Claims</h3>
+          <p class="invariant-desc">
+            We publish real benchmarks, real star counts, and factual capabilities. 
+            Zero fake testimonials, zero marketing buzzwords, and complete disclosure of experimental versus production software.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flagship Featured Projects -->
+  <section class="projects-section">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <div class="section-marker">02 // FLAGSHIP_FLEET</div>
+          <h2 class="section-title">FEATURED OPEN-SOURCE TOOLS</h2>
+          <p class="section-lead">
+            High-impact utilities designed for developers, systems engineers, and Linux operators.
+          </p>
+        </div>
+        <a href="/projects/" class="btn btn-secondary view-all-btn">
+          <span>VIEW ALL {totalRepos} REPOS →</span>
+        </a>
+      </div>
+
+      <div class="projects-grid">
+        {featuredProjects.map(project => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Fleet Telemetry & Charts -->
+  <section class="telemetry-section">
+    <div class="container">
+      <div class="section-marker">03 // FLEET_ANALYTICS</div>
+      <h2 class="section-title">LIVE REPOSITORY TELEMETRY</h2>
+      <p class="section-lead">
+        Aggregated language distributions and star metrics derived directly from the official GitHub REST API.
+      </p>
+
+      <FleetCharts />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero Styles */
+  .hero-section {
+    padding: 4.5rem 0 3.5rem;
+    border-bottom: var(--border-thick);
+    background-color: var(--bg-primary);
+  }
+
+  .hero-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-container {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+
+  /* Glitch Effect on Title */
+  .hero-title:hover {
+    text-shadow: 2px 0 var(--accent-cyan), -2px 0 var(--accent-danger);
+    transition: text-shadow 0.1s ease;
+  }
+
+  .hero-tagline {
+    font-family: var(--font-mono);
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-weight: 700;
+    color: var(--accent-cyan);
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 620px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Terminal Window */
+  .hero-terminal {
+    background-color: #07090e;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  [data-theme='light'] .hero-terminal {
+    background-color: #0d121a;
+  }
+
+  .term-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background-color: #121620;
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .term-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot.red { background-color: #ff5f56; }
+  .dot.yellow { background-color: #ffbd2e; }
+  .dot.green { background-color: #27c93f; }
+
+  .term-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .term-body {
+    padding: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 220px;
+  }
+
+  .term-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .prompt-line {
+    color: #38bdf8;
+    font-weight: 700;
+  }
+
+  .term-prompt {
+    color: var(--accent-cyan);
+  }
+
+  .success-line {
+    color: #4ade80;
+  }
+
+  .term-prefix {
+    font-weight: 700;
+  }
+
+  .info-line {
+    color: #94a3b8;
+  }
+
+  .ready-line {
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+
+  .term-cursor {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* Stats Section */
+  .stats-section {
+    padding: 3.5rem 0;
+    border-bottom: var(--border-thick);
+    background-color: var(--bg-secondary);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 2.75rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+  }
+
+  .stat-desc {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  /* Invariants Section */
+  .invariants-section {
+    padding: 4.5rem 0;
+    border-bottom: var(--border-thick);
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-lead {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin-bottom: 2.5rem;
+  }
+
+  .invariants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .invariant-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .invariant-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+  }
+
+  .invariant-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .invariant-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  /* Projects Section */
+  .projects-section {
+    padding: 4.5rem 0;
+    border-bottom: var(--border-thick);
+    background-color: var(--bg-secondary);
+  }
+
+  .section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.75rem;
+  }
+
+  /* Telemetry Section */
+  .telemetry-section {
+    padding: 4.5rem 0;
+  }
+</style>

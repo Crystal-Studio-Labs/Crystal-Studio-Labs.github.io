@@ -1,0 +1,356 @@
+---
+import projects from '../../data/projects.json';
+
+// Calculate Language Statistics
+const languageCounts: Record<string, number> = {};
+let totalStars = 0;
+
+for (const p of projects) {
+  const lang = p.githubStats?.language || 'Other';
+  languageCounts[lang] = (languageCounts[lang] || 0) + 1;
+  totalStars += (p.githubStats?.stars || 0);
+}
+
+const languages = Object.entries(languageCounts).sort((a, b) => b[1] - a[1]);
+const totalRepos = projects.length;
+
+// Colors for languages in Cyber-Brutalist palette
+const langColors: Record<string, string> = {
+  TypeScript: '#3178c6',
+  Python: '#3572A5',
+  JavaScript: '#f1e05a',
+  Shell: '#89e051',
+  PowerShell: '#012456',
+  Astro: '#ff5a03',
+  Markdown: '#083fa1',
+  Other: '#64748b'
+};
+
+// Top Repos by Stars
+const topStarRepos = [...projects]
+  .filter(p => (p.githubStats?.stars || 0) > 0)
+  .sort((a, b) => (b.githubStats?.stars || 0) - (a.githubStats?.stars || 0));
+
+const maxStars = Math.max(...topStarRepos.map(p => p.githubStats?.stars || 0), 1);
+---
+
+<div class="fleet-charts-container">
+  <div class="charts-grid">
+    <!-- Chart 1: Language Distribution Breakdown -->
+    <div class="brutalist-card chart-card">
+      <div class="hud-corner hud-corner-tl"></div>
+      <div class="hud-corner hud-corner-tr"></div>
+      <div class="hud-corner hud-corner-bl"></div>
+      <div class="hud-corner hud-corner-br"></div>
+
+      <div class="chart-header">
+        <span class="chart-tag">// TELEMETRY_01</span>
+        <h3 class="chart-title">LANGUAGE ALLOCATION</h3>
+      </div>
+      <p class="chart-sub">Distribution across {totalRepos} open-source repositories</p>
+
+      <!-- Multi-segment Horizontal Proportion Bar -->
+      <div class="stacked-bar" role="img" aria-label="Language distribution stacked bar chart">
+        {languages.map(([lang, count]) => {
+          const pct = ((count / totalRepos) * 100).toFixed(1);
+          const color = langColors[lang] || langColors.Other;
+          return (
+            <div 
+              class="bar-segment" 
+              style={`width: ${pct}%; background-color: ${color};`} 
+              title={`${lang}: ${count} repos (${pct}%)`}
+            />
+          );
+        })}
+      </div>
+
+      <!-- Language Legend Matrix -->
+      <div class="lang-legend-grid">
+        {languages.map(([lang, count]) => {
+          const pct = ((count / totalRepos) * 100).toFixed(0);
+          const color = langColors[lang] || langColors.Other;
+          return (
+            <div class="legend-chip">
+              <span class="legend-dot" style={`background-color: ${color};`} />
+              <span class="legend-name">{lang}</span>
+              <span class="legend-val">{count} ({pct}%)</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- Chart 2: Real GitHub Stars per Repository -->
+    <div class="brutalist-card chart-card">
+      <div class="hud-corner hud-corner-tl"></div>
+      <div class="hud-corner hud-corner-tr"></div>
+      <div class="hud-corner hud-corner-bl"></div>
+      <div class="hud-corner hud-corner-br"></div>
+
+      <div class="chart-header">
+        <span class="chart-tag">// TELEMETRY_02</span>
+        <h3 class="chart-title">STARS PER REPOSITORY</h3>
+      </div>
+      <p class="chart-sub">Real GitHub star counts verified via REST API ({totalStars} total stars)</p>
+
+      <div class="bars-container" role="img" aria-label="Bar chart showing star counts per repository">
+        {topStarRepos.map(p => {
+          const stars = p.githubStats?.stars || 0;
+          const widthPct = Math.max((stars / maxStars) * 100, 8);
+          return (
+            <div class="star-row">
+              <div class="repo-meta-label">
+                <a href={`/projects/${p.id}/`} class="repo-name-link">{p.name}</a>
+                <span class="repo-lang-tag">[{p.githubStats?.language || 'Code'}]</span>
+              </div>
+              <div class="bar-track">
+                <div 
+                  class="star-bar" 
+                  style={`width: ${widthPct}%;`}
+                >
+                  <span class="star-val">★ {stars}</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+
+  <!-- Accessible Table Alternative for Screen Readers & Non-Visual Users -->
+  <details class="accessible-data-details">
+    <summary class="accessible-summary">[+] VIEW ACCESSIBLE DATA TABLE (WCAG AA)</summary>
+    <div class="accessible-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Repository</th>
+            <th>Category</th>
+            <th>Language</th>
+            <th>Status</th>
+            <th>Stars</th>
+          </tr>
+        </thead>
+        <tbody>
+          {projects.map(p => (
+            <tr>
+              <td><strong>{p.name}</strong></td>
+              <td>{p.category}</td>
+              <td>{p.githubStats?.language || 'Unknown'}</td>
+              <td>{p.status.toUpperCase()}</td>
+              <td>{p.githubStats?.stars || 0}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </details>
+</div>
+
+<style>
+  .fleet-charts-container {
+    width: 100%;
+    margin: 2rem 0;
+  }
+
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .charts-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .chart-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chart-header {
+    margin-bottom: 0.25rem;
+  }
+
+  .chart-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+
+  .chart-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-top: 0.25rem;
+  }
+
+  .chart-sub {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Stacked Bar */
+  .stacked-bar {
+    display: flex;
+    width: 100%;
+    height: 28px;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .bar-segment {
+    height: 100%;
+    transition: opacity 0.15s ease;
+  }
+
+  .bar-segment:hover {
+    opacity: 0.85;
+  }
+
+  /* Legend Matrix */
+  .lang-legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .legend-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    border: 1px solid var(--border-color);
+    padding: 0.35rem 0.5rem;
+    background-color: var(--bg-surface-elevated);
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-name {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  .legend-val {
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  /* Star Bars */
+  .bars-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .star-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .repo-meta-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .repo-name-link {
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .repo-name-link:hover {
+    color: var(--accent-cyan);
+  }
+
+  .repo-lang-tag {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+
+  .bar-track {
+    width: 100%;
+    height: 24px;
+    background-color: var(--bg-surface-elevated);
+    border: 1.5px solid var(--border-color);
+    position: relative;
+  }
+
+  .star-bar {
+    height: 100%;
+    background-color: var(--accent-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    transition: width 0.3s ease;
+  }
+
+  .star-val {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #000000;
+  }
+
+  /* Accessible Summary */
+  .accessible-data-details {
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-surface);
+  }
+
+  .accessible-summary {
+    padding: 0.875rem 1.25rem;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: var(--bg-surface-elevated);
+    color: var(--text-secondary);
+    user-select: none;
+  }
+
+  .accessible-summary:hover {
+    color: var(--accent-cyan);
+  }
+
+  .accessible-table-wrap {
+    overflow-x: auto;
+    padding: 1rem;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+    text-align: left;
+  }
+
+  .data-table th, .data-table td {
+    padding: 0.6rem 0.85rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .data-table th {
+    background-color: var(--bg-secondary);
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+</style>

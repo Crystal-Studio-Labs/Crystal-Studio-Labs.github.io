@@ -1,0 +1,237 @@
+---
+import InstallCommand from './InstallCommand.astro';
+
+interface Props {
+  project: {
+    id: string;
+    name: string;
+    tagline: string;
+    description: string;
+    status: string;
+    category: string;
+    tags: string[];
+    repo: string;
+    homepage: string;
+    install: string;
+    usage: string;
+    features: string[];
+    featured: boolean;
+    order: number;
+    githubStats?: {
+      stars: number;
+      forks: number;
+      language: string | null;
+      lastPush: string | null;
+    };
+  };
+}
+
+const { project } = Astro.props;
+const stars = project.githubStats?.stars ?? 0;
+const language = project.githubStats?.language ?? 'Shell';
+---
+
+<article class="brutalist-card project-card" data-category={project.category} data-language={language}>
+  <div class="hud-corner hud-corner-tl"></div>
+  <div class="hud-corner hud-corner-tr"></div>
+  <div class="hud-corner hud-corner-bl"></div>
+  <div class="hud-corner hud-corner-br"></div>
+
+  <div class="card-top-meta">
+    <span class="badge badge-cyan">{project.category}</span>
+    <div class="top-status-group">
+      <span class={`status-tag status-${project.status}`}>
+        {project.status === 'active' && '● ACTIVE'}
+        {project.status === 'beta' && '▲ BETA'}
+        {project.status === 'archived' && '■ ARCHIVED'}
+        {project.status === 'planned' && '○ PLANNED'}
+      </span>
+      <span class="star-badge" title={`${stars} GitHub stars`}>
+        ★ {stars}
+      </span>
+    </div>
+  </div>
+
+  <h3 class="project-title">
+    <a href={`/projects/${project.id}/`} class="title-link">{project.name}</a>
+  </h3>
+
+  <p class="project-tagline">{project.tagline}</p>
+
+  <p class="project-desc">{project.description}</p>
+
+  {project.install && (
+    <div class="install-block">
+      <InstallCommand command={project.install} />
+    </div>
+  )}
+
+  <div class="card-footer-meta">
+    <div class="lang-indicator">
+      <span class="lang-dot"></span>
+      <span class="lang-text">{language}</span>
+    </div>
+
+    <div class="card-actions">
+      <a href={`/projects/${project.id}/`} class="action-link-detail">
+        SPEC_SHEET →
+      </a>
+      <a 
+        href={`https://github.com/${project.repo}`} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="action-link-gh"
+        aria-label={`${project.name} source code on GitHub`}
+      >
+        GITHUB ↗
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .card-top-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .top-status-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .status-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+  }
+
+  .status-active {
+    color: var(--accent-green);
+    border-color: var(--accent-green);
+  }
+
+  .status-beta {
+    color: var(--accent-amber);
+    border-color: var(--accent-amber);
+  }
+
+  .status-archived {
+    color: var(--text-muted);
+  }
+
+  .star-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    border: 1px solid var(--border-color);
+    padding: 0.2rem 0.5rem;
+    background-color: var(--bg-surface-elevated);
+  }
+
+  .project-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+  }
+
+  .title-link {
+    color: var(--text-primary);
+  }
+
+  .title-link:hover {
+    color: var(--accent-cyan);
+  }
+
+  .project-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .project-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .install-block {
+    margin-bottom: 1.25rem;
+  }
+
+  .card-footer-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+  }
+
+  .lang-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .lang-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--accent-cyan);
+  }
+
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .action-link-detail {
+    color: var(--accent-cyan);
+  }
+
+  .action-link-detail:hover {
+    text-decoration: underline;
+  }
+
+  .action-link-gh {
+    color: var(--text-muted);
+  }
+
+  .action-link-gh:hover {
+    color: var(--text-primary);
+  }
+</style>

@@ -1,0 +1,127 @@
+---
+interface Props {
+  command: string;
+  prefix?: string;
+}
+
+const { command, prefix = '$' } = Astro.props;
+---
+
+<div class="install-command-wrap">
+  <div class="command-content">
+    <span class="cmd-prefix">{prefix}</span>
+    <code class="cmd-text">{command}</code>
+  </div>
+  <button 
+    type="button" 
+    class="copy-cmd-btn" 
+    data-copy={command}
+    aria-label={`Copy command: ${command}`}
+    title="Copy to clipboard"
+  >
+    <span class="copy-text">[COPY]</span>
+    <span class="copied-text" aria-hidden="true">[✓ COPIED]</span>
+  </button>
+</div>
+
+<style>
+  .install-command-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    background-color: #07090d;
+    border: 2px solid var(--border-color);
+    padding: 0.65rem 0.875rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  [data-theme='light'] .install-command-wrap {
+    background-color: #0f172a;
+    border-color: #0f172a;
+  }
+
+  .command-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    color: #38bdf8;
+  }
+
+  .cmd-prefix {
+    color: var(--accent-cyan);
+    font-weight: 700;
+    user-select: none;
+  }
+
+  .cmd-text {
+    font-family: var(--font-mono);
+  }
+
+  .copy-cmd-btn {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    min-height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+
+  .copy-cmd-btn:hover {
+    background-color: var(--accent-cyan);
+    color: #000000;
+    border-color: var(--accent-cyan);
+  }
+
+  .copied-text {
+    display: none;
+  }
+
+  .copy-cmd-btn.copied {
+    background-color: var(--accent-green);
+    color: #000000;
+    border-color: var(--accent-green);
+  }
+
+  .copy-cmd-btn.copied .copy-text {
+    display: none;
+  }
+
+  .copy-cmd-btn.copied .copied-text {
+    display: inline-block;
+  }
+</style>
+
+<script>
+  // Delegated Copy to Clipboard Script
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement | null;
+    const btn = target?.closest('.copy-cmd-btn') as HTMLButtonElement | null;
+    if (!btn) return;
+
+    const textToCopy = btn.getAttribute('data-copy');
+    if (!textToCopy) return;
+
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+  });
+</script>
