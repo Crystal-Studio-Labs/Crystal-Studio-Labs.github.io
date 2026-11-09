@@ -1,0 +1,21 @@
+{
+  "name": "Crystal Studio Labs",
+  "short_name": "CrystalStudio",
+  "description": "Autonomous Systems, Developer Tooling & Resilient Architectures",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0D12",
+  "theme_color": "#00F0FF",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
