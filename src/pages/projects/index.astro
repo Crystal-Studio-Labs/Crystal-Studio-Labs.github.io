@@ -1,0 +1,506 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import site from '../../../data/site.json';
+import projects from '../../../data/projects.json';
+
+const allCategories = ['ALL', ...new Set(projects.map(p => p.category))];
+const allLanguages = ['ALL', ...new Set(projects.map(p => p.githubStats?.language || 'Other').filter(Boolean))];
+
+// Initial default sort by order
+const initialProjects = [...projects].sort((a, b) => a.order - b.order);
+---
+
+<BaseLayout 
+  title="Projects Directory | Crystal Studio Labs"
+  description="Comprehensive open-source catalog of all 18 repositories by Crystal Studio Labs. Filter by language, category, or search across systems utilities."
+  currentPath="/projects/"
+>
+  <div class="projects-page-header">
+    <div class="container">
+      <div class="section-marker">02 // REPOSITORY_DIRECTORY</div>
+      <h1 class="page-title">FLEET CATALOG</h1>
+      <p class="page-lead">
+        Explore our entire portfolio of {projects.length} real open-source systems, utilities, and developer tools. 
+        Filtered in real time with live GitHub telemetry.
+      </p>
+
+      <!-- Live Search & Control Matrix -->
+      <div class="controls-matrix brutalist-card">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-tr"></div>
+        <div class="hud-corner hud-corner-bl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+
+        <div class="search-bar-row">
+          <div class="search-input-wrap">
+            <span class="search-prefix" aria-hidden="true">[SEARCH_QUERY]:</span>
+            <input 
+              type="search" 
+              id="repo-search" 
+              class="repo-search-input" 
+              placeholder="Type keyword, tag (e.g. Linux, TUI, Auth), or tool name..."
+              aria-label="Search repositories by keyword or tag"
+            />
+          </div>
+
+          <div class="sort-select-wrap">
+            <label for="sort-select" class="sort-label">SORT:</label>
+            <select id="sort-select" class="sort-select" aria-label="Sort repositories">
+              <option value="featured">Featured / Curated</option>
+              <option value="stars">Stars (High to Low)</option>
+              <option value="name">Alphabetical (A - Z)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Category Filter Chips -->
+        <div class="filter-row">
+          <span class="filter-row-label">CATEGORY:</span>
+          <div class="filter-chips-list" id="category-filters" role="group" aria-label="Filter by category">
+            {allCategories.map(cat => (
+              <button 
+                type="button" 
+                class={`filter-chip ${cat === 'ALL' ? 'active' : ''}`}
+                data-filter-category={cat}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Language Filter Chips -->
+        <div class="filter-row">
+          <span class="filter-row-label">LANGUAGE:</span>
+          <div class="filter-chips-list" id="language-filters" role="group" aria-label="Filter by language">
+            {allLanguages.map(lang => (
+              <button 
+                type="button" 
+                class={`filter-chip ${lang === 'ALL' ? 'active' : ''}`}
+                data-filter-language={lang}
+              >
+                {lang}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Telemetry Status Bar -->
+        <div class="matrix-status-bar">
+          <div class="result-count" id="result-count">
+            SHOWING <span id="visible-count">{projects.length}</span> OF {projects.length} REPOSITORIES
+          </div>
+          <button type="button" id="reset-filters-btn" class="reset-btn" style="display: none;">
+            [✕ RESET FILTERS]
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects Grid Section -->
+  <div class="projects-grid-section">
+    <div class="container">
+      <div class="projects-grid" id="projects-grid">
+        {initialProjects.map(project => (
+          <div 
+            class="project-card-wrapper" 
+            data-id={project.id}
+            data-name={project.name.toLowerCase()}
+            data-tagline={project.tagline.toLowerCase()}
+            data-desc={project.description.toLowerCase()}
+            data-category={project.category}
+            data-language={project.githubStats?.language || 'Other'}
+            data-tags={project.tags.join(' ').toLowerCase()}
+            data-stars={project.githubStats?.stars || 0}
+            data-order={project.order}
+          >
+            <ProjectCard project={project} />
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      <div id="no-results" class="brutalist-card no-results-box" style="display: none;">
+        <div class="no-results-code">[STATUS 404: NO REPOSITORIES MATCH CURRENT QUERY]</div>
+        <p class="no-results-text">No open-source repositories found matching your keyword and filter combination.</p>
+        <button type="button" id="empty-reset-btn" class="btn btn-primary">
+          <span>CLEAR ALL FILTERS</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .projects-page-header {
+    padding: 3.5rem 0 2rem;
+    border-bottom: var(--border-thick);
+    background-color: var(--bg-secondary);
+  }
+
+  .page-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-lead {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin-bottom: 2rem;
+  }
+
+  /* Controls Matrix */
+  .controls-matrix {
+    padding: 1.5rem;
+    background-color: var(--bg-surface);
+  }
+
+  .search-bar-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .search-bar-row {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .search-input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--border-color);
+    background-color: #07090d;
+    padding: 0.5rem 0.875rem;
+  }
+
+  [data-theme='light'] .search-input-wrap {
+    background-color: #ffffff;
+  }
+
+  .search-prefix {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    margin-right: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .repo-search-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    outline: none;
+  }
+
+  .sort-select-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .sort-label {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .sort-select {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 0.65rem 0.875rem;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  .filter-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .filter-row {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .filter-row-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    min-width: 90px;
+  }
+
+  .filter-chips-list {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 0.35rem 0.65rem;
+    border: 1.5px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.1s ease;
+  }
+
+  .filter-chip:hover {
+    border-color: var(--accent-cyan);
+    color: var(--text-primary);
+  }
+
+  .filter-chip.active {
+    background-color: var(--accent-cyan);
+    color: #000000;
+    border-color: var(--accent-cyan);
+  }
+
+  .matrix-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.875rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .result-count span {
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+
+  .reset-btn {
+    background: transparent;
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-danger);
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .reset-btn:hover {
+    text-decoration: underline;
+  }
+
+  /* Projects Grid */
+  .projects-grid-section {
+    padding: 3.5rem 0 5rem;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.75rem;
+  }
+
+  .no-results-box {
+    text-align: center;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .no-results-code {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-danger);
+  }
+
+  .no-results-text {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<script>
+  // Real-time Search, Filter, and Sort Engine with LocalStorage Telemetry Cache
+  let currentCategory = 'ALL';
+  let currentLanguage = 'ALL';
+  let searchQuery = '';
+  let currentSort = 'featured';
+
+  const searchInput = document.getElementById('repo-search') as HTMLInputElement | null;
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement | null;
+  const catFilterBtns = document.querySelectorAll('#category-filters .filter-chip');
+  const langFilterBtns = document.querySelectorAll('#language-filters .filter-chip');
+  const projectCards = Array.from(document.querySelectorAll('.project-card-wrapper')) as HTMLElement[];
+  const visibleCountEl = document.getElementById('visible-count');
+  const resetBtn = document.getElementById('reset-filters-btn');
+  const emptyResetBtn = document.getElementById('empty-reset-btn');
+  const noResultsBox = document.getElementById('no-results');
+  const gridContainer = document.getElementById('projects-grid');
+
+  function applyFiltersAndSort() {
+    let visibleCount = 0;
+
+    projectCards.forEach(card => {
+      const name = card.dataset.name || '';
+      const tagline = card.dataset.tagline || '';
+      const desc = card.dataset.desc || '';
+      const category = card.dataset.category || '';
+      const language = card.dataset.language || '';
+      const tags = card.dataset.tags || '';
+
+      const queryMatches = !searchQuery || 
+        name.includes(searchQuery) || 
+        tagline.includes(searchQuery) || 
+        desc.includes(searchQuery) || 
+        tags.includes(searchQuery);
+
+      const categoryMatches = (currentCategory === 'ALL') || (category === currentCategory);
+      const languageMatches = (currentLanguage === 'ALL') || (language === currentLanguage);
+
+      if (queryMatches && categoryMatches && languageMatches) {
+        card.style.display = 'block';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Apply Sorting
+    const sorted = [...projectCards].sort((a, b) => {
+      if (currentSort === 'stars') {
+        const starsA = parseInt(a.dataset.stars || '0', 10);
+        const starsB = parseInt(b.dataset.stars || '0', 10);
+        return starsB - starsA;
+      } else if (currentSort === 'name') {
+        const nameA = a.dataset.name || '';
+        const nameB = b.dataset.name || '';
+        return nameA.localeCompare(nameB);
+      } else {
+        // default / featured order
+        const orderA = parseInt(a.dataset.order || '999', 10);
+        const orderB = parseInt(b.dataset.order || '999', 10);
+        return orderA - orderB;
+      }
+    });
+
+    sorted.forEach(card => gridContainer?.appendChild(card));
+
+    if (visibleCountEl) visibleCountEl.textContent = visibleCount.toString();
+
+    // Toggle reset buttons and empty state
+    const isFiltered = searchQuery !== '' || currentCategory !== 'ALL' || currentLanguage !== 'ALL' || currentSort !== 'featured';
+    if (resetBtn) resetBtn.style.display = isFiltered ? 'inline-block' : 'none';
+
+    if (noResultsBox) {
+      noResultsBox.style.display = (visibleCount === 0) ? 'flex' : 'none';
+    }
+  }
+
+  searchInput?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+    applyFiltersAndSort();
+  });
+
+  sortSelect?.addEventListener('change', (e) => {
+    currentSort = (e.target as HTMLSelectElement).value;
+    applyFiltersAndSort();
+  });
+
+  catFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      catFilterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.getAttribute('data-filter-category') || 'ALL';
+      applyFiltersAndSort();
+    });
+  });
+
+  langFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      langFilterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentLanguage = btn.getAttribute('data-filter-language') || 'ALL';
+      applyFiltersAndSort();
+    });
+  });
+
+  function resetAllFilters() {
+    searchQuery = '';
+    currentCategory = 'ALL';
+    currentLanguage = 'ALL';
+    currentSort = 'featured';
+
+    if (searchInput) searchInput.value = '';
+    if (sortSelect) sortSelect.value = 'featured';
+
+    catFilterBtns.forEach(b => {
+      if (b.getAttribute('data-filter-category') === 'ALL') b.classList.add('active');
+      else b.classList.remove('active');
+    });
+
+    langFilterBtns.forEach(b => {
+      if (b.getAttribute('data-filter-language') === 'ALL') b.classList.add('active');
+      else b.classList.remove('active');
+    });
+
+    applyFiltersAndSort();
+  }
+
+  resetBtn?.addEventListener('click', resetAllFilters);
+  emptyResetBtn?.addEventListener('click', resetAllFilters);
+
+  // Background GitHub Telemetry Freshness Check with LocalStorage Cache
+  const CACHE_KEY = 'csl-fleet-stats-cache';
+  const CACHE_TTL_MS = 15 * 60 * 1000; // 15 mins
+
+  async function checkTelemetryFreshness() {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Date.now() - parsed.timestamp < CACHE_TTL_MS) {
+          return; // Cache valid
+        }
+      }
+
+      const res = await fetch('/github-fleet-cache.json');
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data }));
+      }
+    } catch (e) {
+      // Non-blocking fallback
+    }
+  }
+
+  checkTelemetryFreshness();
+</script>
