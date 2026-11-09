@@ -1,0 +1,542 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InstallCommand from '../../components/InstallCommand.astro';
+import site from '../../../data/site.json';
+import projects from '../../../data/projects.json';
+
+export async function getStaticPaths() {
+  return projects.map(project => ({
+    params: { id: project.id },
+    props: { project }
+  }));
+}
+
+interface Props {
+  project: (typeof projects)[0];
+}
+
+const { project } = Astro.props;
+
+// Related projects in same category
+const relatedProjects = projects
+  .filter(p => p.id !== project.id && (p.category === project.category || p.githubStats?.language === project.githubStats?.language))
+  .slice(0, 3);
+
+// SoftwareSourceCode / SoftwareApplication JSON-LD
+const projectJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareSourceCode',
+  'name': project.name,
+  'description': project.description,
+  'programmingLanguage': project.githubStats?.language || 'Shell',
+  'codeRepository': `https://github.com/${project.repo}`,
+  'author': {
+    '@type': 'Organization',
+    'name': site.name,
+    'url': site.url
+  },
+  'license': 'https://opensource.org/licenses/MIT'
+};
+
+const stars = project.githubStats?.stars ?? 0;
+const forks = project.githubStats?.forks ?? 0;
+const language = project.githubStats?.language ?? 'Shell';
+const lastPush = project.githubStats?.lastPush ? new Date(project.githubStats.lastPush).toISOString().split('T')[0] : '2026-11-09';
+---
+
+<BaseLayout 
+  title={`${project.name} | ${site.name}`}
+  description={project.tagline}
+  jsonLd={projectJsonLd}
+  currentPath={`/projects/${project.id}/`}
+>
+  <div class="project-detail-page">
+    <div class="container">
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb navigation">
+        <ol class="breadcrumb-list">
+          <li><a href="/" class="crumb-link">ROOT</a></li>
+          <li class="crumb-separator">/</li>
+          <li><a href="/projects/" class="crumb-link">PROJECTS</a></li>
+          <li class="crumb-separator">/</li>
+          <li class="crumb-current" aria-current="page">{project.name.toUpperCase()}</li>
+        </ol>
+      </nav>
+
+      <!-- Main Project Header HUD -->
+      <header class="project-spec-header brutalist-card">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-tr"></div>
+        <div class="hud-corner hud-corner-bl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+
+        <div class="header-badges-row">
+          <span class="badge badge-cyan">{project.category}</span>
+          <span class={`status-tag status-${project.status}`}>
+            {project.status === 'active' && '● ACTIVE DEVELOPMENT'}
+            {project.status === 'beta' && '▲ PUBLIC BETA'}
+            {project.status === 'archived' && '■ ARCHIVED'}
+            {project.status === 'planned' && '○ PLANNED'}
+          </span>
+          <span class="star-badge">★ {stars} STARS</span>
+          <span class="forks-badge">⑂ {forks} FORKS</span>
+        </div>
+
+        <h1 class="project-headline">{project.name}</h1>
+        <p class="project-subheadline">{project.tagline}</p>
+
+        <div class="header-actions-row">
+          <a 
+            href={`https://github.com/${project.repo}`} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="btn btn-primary"
+          >
+            <span>VIEW ON GITHUB</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+
+          {project.homepage && project.homepage !== `https://github.com/${project.repo}` && (
+            <a 
+              href={project.homepage} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="btn btn-secondary"
+            >
+              <span>HOMEPAGE / DOCS</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
+
+          <a href="/projects/" class="btn btn-secondary">
+            <span>← ALL REPOSITORIES</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Grid Content Layout -->
+      <div class="spec-layout-grid">
+        <!-- Col 1: Overview, Installation & Usage -->
+        <div class="spec-main-column">
+          <!-- Overview Block -->
+          <section class="brutalist-card spec-section">
+            <div class="section-marker">// 01 OVERVIEW</div>
+            <h2 class="subhead">TECHNICAL DESCRIPTION</h2>
+            <p class="description-text">{project.description}</p>
+          </section>
+
+          <!-- Quick Install Block -->
+          {project.install && (
+            <section class="brutalist-card spec-section">
+              <div class="section-marker">// 02 DEPLOYMENT & ONBOARDING</div>
+              <h2 class="subhead">INSTALLATION COMMAND</h2>
+              <InstallCommand command={project.install} />
+            </section>
+          )}
+
+          <!-- Usage Example Block -->
+          {project.usage && (
+            <section class="brutalist-card spec-section">
+              <div class="section-marker">// 03 EXECUTION HARNESS</div>
+              <h2 class="subhead">USAGE SNIPPET</h2>
+              <div class="code-box">
+                <pre><code>{project.usage}</code></pre>
+              </div>
+            </section>
+          )}
+
+          <!-- Key Features Matrix -->
+          <section class="brutalist-card spec-section">
+            <div class="section-marker">// 04 SYSTEM INVARIANTS</div>
+            <h2 class="subhead">ARCHITECTURAL FEATURES</h2>
+            <ul class="features-list">
+              {project.features.map(feature => (
+                <li class="feature-item">
+                  <span class="feature-marker">[+]</span>
+                  <span class="feature-text">{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        <!-- Col 2: Telemetry Sidebar & Metadata -->
+        <aside class="spec-sidebar">
+          <div class="brutalist-card metadata-card">
+            <div class="section-marker">// TELEMETRY_MATRIX</div>
+            <h3 class="sidebar-heading">SPECIFICATIONS</h3>
+
+            <dl class="meta-dl">
+              <div class="meta-row">
+                <dt>REPOSITORY:</dt>
+                <dd>
+                  <a href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer" class="meta-link">
+                    {project.repo}
+                  </a>
+                </dd>
+              </div>
+
+              <div class="meta-row">
+                <dt>PRIMARY LANGUAGE:</dt>
+                <dd class="meta-val-highlight">{language}</dd>
+              </div>
+
+              <div class="meta-row">
+                <dt>LICENSE:</dt>
+                <dd>MIT Open Source</dd>
+              </div>
+
+              <div class="meta-row">
+                <dt>LAST VERIFIED PUSH:</dt>
+                <dd>{lastPush}</dd>
+              </div>
+
+              <div class="meta-row">
+                <dt>MEMORY TARGET:</dt>
+                <dd>&lt;25MB RSS Ceiling</dd>
+              </div>
+
+              <div class="meta-row">
+                <dt>TELEMETRY CHECK:</dt>
+                <dd class="meta-val-clean">100% Zero-Tracking</dd>
+              </div>
+
+              <div class="meta-row">
+                <dt>BUILD BINDINGS:</dt>
+                <dd class="meta-val-clean">Zero Native C/Gyp Deps</dd>
+              </div>
+            </dl>
+
+            <div class="sidebar-tags">
+              <div class="tags-label">INDEXED TAGS:</div>
+              <div class="tags-cloud">
+                {project.tags.map(t => (
+                  <span class="spec-tag">#{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <!-- Related Fleet Tools -->
+          {relatedProjects.length > 0 && (
+            <div class="brutalist-card related-card">
+              <div class="section-marker">// RELATED_FLEET</div>
+              <h3 class="sidebar-heading">SIMILAR UTILITIES</h3>
+              <ul class="related-list">
+                {relatedProjects.map(rel => (
+                  <li class="related-item">
+                    <a href={`/projects/${rel.id}/`} class="related-link">
+                      <div class="related-title">{rel.name}</div>
+                      <div class="related-tagline">{rel.tagline}</div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </aside>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .project-detail-page {
+    padding: 2.5rem 0 5rem;
+  }
+
+  /* Breadcrumb Navigation */
+  .breadcrumb-nav {
+    margin-bottom: 1.5rem;
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .crumb-link {
+    color: var(--text-muted);
+  }
+
+  .crumb-link:hover {
+    color: var(--accent-cyan);
+  }
+
+  .crumb-separator {
+    color: var(--text-muted);
+  }
+
+  .crumb-current {
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+
+  /* Header Card */
+  .project-spec-header {
+    padding: 2.25rem;
+    margin-bottom: 2.5rem;
+    background-color: var(--bg-surface);
+  }
+
+  .header-badges-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .status-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+  }
+
+  .status-active {
+    color: var(--accent-green);
+    border-color: var(--accent-green);
+  }
+
+  .status-beta {
+    color: var(--accent-amber);
+    border-color: var(--accent-amber);
+  }
+
+  .status-archived {
+    color: var(--text-muted);
+  }
+
+  .star-badge, .forks-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    border: 1px solid var(--border-color);
+    padding: 0.25rem 0.55rem;
+    background-color: var(--bg-surface-elevated);
+  }
+
+  .project-headline {
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .project-subheadline {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1.75rem;
+    max-width: 800px;
+    line-height: 1.5;
+  }
+
+  .header-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Grid Layout */
+  .spec-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .spec-layout-grid {
+      grid-template-columns: 1fr 340px;
+    }
+  }
+
+  .spec-main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .spec-section {
+    padding: 1.75rem;
+  }
+
+  .subhead {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .description-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  /* Code snippet block */
+  .code-box pre {
+    overflow-x: auto;
+    white-space: pre;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  /* Features List */
+  .features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+  }
+
+  .feature-marker {
+    font-family: var(--font-mono);
+    color: var(--accent-cyan);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Sidebar */
+  .spec-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .metadata-card {
+    padding: 1.5rem;
+  }
+
+  .sidebar-heading {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .meta-dl {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.6rem;
+  }
+
+  .meta-row dt {
+    color: var(--text-muted);
+  }
+
+  .meta-row dd {
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-left: 0;
+  }
+
+  .meta-link {
+    color: var(--accent-cyan);
+    word-break: break-all;
+  }
+
+  .meta-link:hover {
+    text-decoration: underline;
+  }
+
+  .meta-val-highlight {
+    color: var(--accent-cyan);
+  }
+
+  .meta-val-clean {
+    color: var(--accent-green);
+  }
+
+  .sidebar-tags {
+    margin-top: 1.5rem;
+  }
+
+  .tags-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .tags-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .spec-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    background-color: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.5rem;
+  }
+
+  /* Related List */
+  .related-card {
+    padding: 1.5rem;
+  }
+
+  .related-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .related-link {
+    display: block;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface-elevated);
+    transition: all 0.15s ease;
+  }
+
+  .related-link:hover {
+    border-color: var(--accent-cyan);
+    transform: translateX(3px);
+  }
+
+  .related-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .related-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    line-height: 1.3;
+  }
+</style>
